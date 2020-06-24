@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width"/>
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Formulario de Tarjeta de Crédito Dinámico</title>
 	<link rel="icon" type="image/png" href="logo.png">
@@ -54,60 +54,88 @@
 									cursor: context-menu;
 									background-color: transparent;
 									border: 1px solid silver
-							} 
-							</style>					
-					
-					<script>
-					var cuadrito = document.getElementById("pizarra");
-					var papel = cuadrito.getContext("2d");
-					var x = 100;
-					var y = 100;
-					var mxi, myi, mxf, myf, dibujo;
-					
-					cuadrito.addEventListener("mousedown", clickInicial);
-					cuadrito.addEventListener("mousemove", ClickLinea);
-					cuadrito.addEventListener("mouseup", clickFinal);
-					
-					function clickInicial(evento)
-					{
-					dibujo = 0;
-					mxi = evento.layerX;
-					myi = evento.layerY;
-					
-					}
-					
-					function ClickLinea(evento){
-					if(dibujo == 0)
-					{
-					colorcito = "black"
-					mxf = evento.layerX;
-					myf = evento.layerY;
-					dibujarLinea(colorcito, mxi, myi, mxf, myf, papel);
-					mxi = mxf;
-					myi = myf;
-					
-					}
-					
-					}
-					function clickFinal(evento)
-					{
-						 dibujo=1;
-					}
-					
-					function dibujarLinea(color, xinicial, yinicial, xfinal, yfinal, lienzo)
-					{
-					lienzo.beginPath();
-					lienzo.strokeStyle = color;
-					lienzo.lineWidth = 4;
-					lienzo.moveTo(xinicial, yinicial);
-					lienzo.lineTo(xfinal, yfinal);
-					lienzo.stroke();
-					lienzo.closePath();
-					}
+							} 						
+						</style>					
+		
+		<!-- Función firmar mouse y touch -->
+					<script>				 
+    // VARIABLES
 
-					</script>
-				
-				
+    let miCanvas = document.querySelector('#pizarra');
+    let lineas = [];
+    let correccionX = 0;
+    let correccionY = 0;
+    let pintarLinea = false;
+
+    let posicion = miCanvas.getBoundingClientRect()
+    correccionX = posicion.x;
+    correccionY = posicion.y;
+    
+    // FUNCIONES
+
+     // Funcion que empieza a dibujar la linea
+     
+    function empezarDibujo () {
+        pintarLinea = true;
+        lineas.push([]);
+    };
+ 
+     //Funcion dibuja la linea
+    function dibujarLinea (event) {
+        event.preventDefault();
+        if (pintarLinea) {
+            let ctx = miCanvas.getContext('2d')
+            // Estilos de linea
+            ctx.lineJoin = ctx.lineCap = 'round';
+            ctx.lineWidth = 4;
+            // Color de la linea
+            ctx.strokeStyle = 'black';
+            // Marca el nuevo punto
+            let nuevaPosicionX = 0;
+            let nuevaPosicionY = 0;
+            if (event.changedTouches == undefined) {
+                // Versión ratón
+                nuevaPosicionX = event.layerX;
+                nuevaPosicionY = event.layerY;
+            } else {
+                // Versión touch, pantalla tactil
+                nuevaPosicionX = event.changedTouches[0].pageX - correccionX;
+                nuevaPosicionY = event.changedTouches[0].pageY - correccionY;
+            }
+            // Guarda la linea
+            lineas[lineas.length - 1].push({
+                x: nuevaPosicionX,
+                y: nuevaPosicionY
+            });
+            // Redibuja todas las lineas guardadas
+            ctx.beginPath();
+            lineas.forEach(function (segmento) {
+                ctx.moveTo(segmento[0].x, segmento[0].y);
+                segmento.forEach(function (punto, index) {
+                    ctx.lineTo(punto.x, punto.y);
+                });
+            });
+            ctx.stroke();
+        }
+    }
+    
+     //Funcion que deja de dibujar la linea
+    
+    function pararDibujar () {
+        pintarLinea = false;
+    }
+
+    // EVENTOS
+
+    // Eventos raton
+    miCanvas.addEventListener('mousedown', empezarDibujo, false);
+    miCanvas.addEventListener('mousemove', dibujarLinea, false);
+    miCanvas.addEventListener('mouseup', pararDibujar, false);
+
+    // Eventos touch
+    miCanvas.addEventListener('touchstart', empezarDibujo, false);
+    miCanvas.addEventListener('touchmove', dibujarLinea, false);
+					</script>	
 				</div>
 					<div class="grupo" id="ccv">
 						<p class="label">CCV</p>
