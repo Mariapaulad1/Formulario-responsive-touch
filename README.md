@@ -1,4 +1,4 @@
-# Formulario Dinámico Responsive para Tarjeta de Crédito 
+# Formulario Dinámico Responsive para pagos con Tarjeta de Crédito 
   HTML, CSS y Javascript
 
 
