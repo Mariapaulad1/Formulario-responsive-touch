@@ -11,7 +11,7 @@
 No requiere instalación. Simplemente descargar y abrir el archivo .HTML
 
 ## Creditos
- - [Mariapaulad1](https://github.com/Mariapaulad1/formulario-argenpepper-tc.git)
+ - [Mariapaulad1](https://github.com/Mariapaulad1/formulario-responsive-touch.git)
 
  ## Licencia
 
