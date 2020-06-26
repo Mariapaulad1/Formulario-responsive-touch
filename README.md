@@ -1,4 +1,4 @@
-# Formulario Dinámico para Tarjeta de Crédito 
+# Formulario Dinámico Responsive para Tarjeta de Crédito 
   HTML, CSS y Javascript
 
 
@@ -8,7 +8,7 @@
 
  ## Instalacion
 
-No requiere instalación. Simplemente descargar y ejecutar el archivo .HTML
+No requiere instalación. Simplemente descargar y abrir el archivo .HTML
 
 ## Creditos
  - [Mariapaulad1](https://github.com/Mariapaulad1/formulario-argenpepper-tc.git)
